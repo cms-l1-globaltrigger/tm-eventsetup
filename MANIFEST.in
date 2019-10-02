@@ -1,0 +1,5 @@
+include tmEventSetup/xsd/*.xsd
+include tmEventSetup/xsd-type/*.xsd
+
+include README.md
+include LICENSE
