@@ -1,4 +1,4 @@
-%module(package="tmEventSetup", moduleimport="import $module") tmEventSetup
+%module(moduleimport="import $module") tmEventSetup
 
 %{
 #include "tmEventSetup/tmEventSetup.hh"
