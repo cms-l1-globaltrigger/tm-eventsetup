@@ -92,6 +92,7 @@ tmEventSetup_ext = Extension(
         os.path.join(UTM_ROOT, 'tmEventSetup'),
     ],
     libraries=['tmutil', 'tmtable', 'tmgrammar', 'tmeventsetup'],
+    extra_compile_args=["-std=c++11"],
 )
 
 setup(
