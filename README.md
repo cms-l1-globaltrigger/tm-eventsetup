@@ -56,7 +56,4 @@ pip install --upgrade pip wheel
 python setup.py bdist_wheel
 ```
 
-**Note:** the resulting wheel is not universal a
-
 To create universal Python bindings use a `manylinux1` docker image and `audithwheel` to integrate dependent libraries.
-
