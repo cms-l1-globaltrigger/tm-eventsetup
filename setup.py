@@ -68,6 +68,7 @@ class BuildPyCommand(setuptools.command.build_py.build_py):
 
 tmEventSetup_ext = Extension(
     name='_tmEventSetup',
+    define_macros=[('SWIG', '1'),],
     sources=[
         os.path.join('tmEventSetup', 'tmEventSetup_wrap.cxx')
     ],
