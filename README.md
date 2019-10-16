@@ -50,6 +50,7 @@ Next build the Python bindings and pack them into a wheel.
 ```bash
 git clone https://github.com/cms-l1-globaltrigger/tm-eventsetup.git
 cd tm-eventsetup
+git checkout 0.7.3
 python3 -m venv env
 . env/bin/activate
 pip install --upgrade pip wheel
