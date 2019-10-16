@@ -68,31 +68,22 @@ class BuildPyCommand(setuptools.command.build_py.build_py):
 
 tmEventSetup_ext = Extension(
     name='_tmEventSetup',
-    define_macros=[('SWIG', '1'),],
     sources=[
-        os.path.join('tmEventSetup', 'tmEventSetup_wrap.cxx'),
-        os.path.join(UTM_ROOT, 'tmEventSetup', 'tmEventSetup.cc'),
-        os.path.join(UTM_ROOT, 'tmEventSetup', 'esTriggerMenuHandle.cc'),
-        os.path.join(UTM_ROOT, 'tmEventSetup', 'esAlgorithmHandle.cc'),
-        os.path.join(UTM_ROOT, 'tmEventSetup', 'esConditionHandle.cc'),
-        os.path.join(UTM_ROOT, 'tmEventSetup', 'esObjectHandle.cc'),
-        os.path.join(UTM_ROOT, 'tmEventSetup', 'esCutHandle.cc'),
-        os.path.join(UTM_ROOT, 'tmEventSetup', 'esScaleHandle.cc'),
-        os.path.join(UTM_ROOT, 'tmEventSetup', 'esBinHandle.cc'),
+        os.path.join('tmEventSetup', 'tmEventSetup_wrap.cxx')
     ],
     include_dirs=[
         UTM_ROOT,
         os.path.join(UTM_ROOT, 'tmTable'),
-        os.path.join(UTM_ROOT, 'tmEventSetup'),
+        os.path.join(UTM_ROOT, 'tmEventSetup')
     ],
     library_dirs=[
         os.path.join(UTM_ROOT, 'tmUtil'),
         os.path.join(UTM_ROOT, 'tmTable'),
         os.path.join(UTM_ROOT, 'tmGrammar'),
-        os.path.join(UTM_ROOT, 'tmEventSetup'),
+        os.path.join(UTM_ROOT, 'tmEventSetup')
     ],
     libraries=['tmutil', 'tmtable', 'tmgrammar', 'tmeventsetup'],
-    extra_compile_args=["-std=c++11"],
+    extra_compile_args=['-std=c++11']
 )
 
 setup(
@@ -112,5 +103,5 @@ setup(
             os.path.join('xsd', 'xsd-type', '*.xsd'),
         ]
     },
-    license="GPLv3",
+    license="GPLv3"
 )
