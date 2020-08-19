@@ -16,6 +16,7 @@ using namespace tmeventsetup;
 
 %include <std_map.i>
 %include <std_vector.i>
+%include <std_set.i>
 %include <std_string.i>
 
 namespace std {
@@ -27,6 +28,7 @@ namespace std {
   %template(CutVec) vector<tmeventsetup::esCut>;
   %template(BinVec) vector<tmeventsetup::esBin>;
   %template(StrVec) vector<string>;
+  %template(StrSet) set<string>;
   %template(LlongVec) vector<long long>;
   %template(DoubleVec) vector<double>;
 }
