@@ -7,7 +7,7 @@ import os
 from setuptools import setup, Extension
 import setuptools.command.build_py
 
-UTM_VERSION = '0.8.0'
+UTM_VERSION = '0.8.1'
 PACKAGE_NAME = 'tmEventSetup'
 PACKAGE_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), PACKAGE_NAME))
 
@@ -33,7 +33,7 @@ def copy_files(sources, dest):
     for src in sources:
         shutil.copy(src, os.path.join(dest, os.path.basename(src)))
 
-with open(os.path.join(UTM_ROOT, PACKAGE_NAME, 'version.h')) as f:
+with open(os.path.join(UTM_ROOT, PACKAGE_NAME, 'include', 'utm', PACKAGE_NAME, 'version.h')) as f:
     assert UTM_VERSION == load_version(f)
 
 class BuildPyCommand(setuptools.command.build_py.build_py):
@@ -54,7 +54,7 @@ class BuildPyCommand(setuptools.command.build_py.build_py):
         copy_files(glob.glob(os.path.join(UTM_XSD_DIR, '*.xsd')), xsd_dir)
         copy_files(glob.glob(os.path.join(UTM_XSD_DIR, 'xsd-type', '*.xsd')), xsd_type_dir)
         # run SWIG to (re)create bindings module
-        subprocess.check_call(['swig', '-c++', '-python', '-outcurrentdir', '-I{}'.format(UTM_ROOT), '{}.i'.format(PACKAGE_NAME)])
+        subprocess.check_call(['swig', '-c++', '-python', '-outcurrentdir', '-I{}'.format(os.path.join(UTM_ROOT, PACKAGE_NAME, 'include', 'utm')), '{}.i'.format(PACKAGE_NAME)])
         # (re)create version module
         with open('version.py', 'w') as f:
             f.write("__version__ = '{}'".format(UTM_VERSION))
@@ -73,15 +73,16 @@ tmEventSetup_ext = Extension(
         os.path.join('tmEventSetup', 'tmEventSetup_wrap.cxx')
     ],
     include_dirs=[
-        UTM_ROOT,
-        os.path.join(UTM_ROOT, 'tmTable'),
-        os.path.join(UTM_ROOT, 'tmEventSetup')
+        os.path.join(UTM_ROOT, 'tmUtil', 'include', 'utm'),
+        os.path.join(UTM_ROOT, 'tmTable', 'include', 'utm'),
+        os.path.join(UTM_ROOT, 'tmGrammar', 'include', 'utm'),
+        os.path.join(UTM_ROOT, PACKAGE_NAME, 'include', 'utm')
     ],
     library_dirs=[
         os.path.join(UTM_ROOT, 'tmUtil'),
         os.path.join(UTM_ROOT, 'tmTable'),
         os.path.join(UTM_ROOT, 'tmGrammar'),
-        os.path.join(UTM_ROOT, 'tmEventSetup')
+        os.path.join(UTM_ROOT, PACKAGE_NAME)
     ],
     libraries=['tmutil', 'tmtable', 'tmgrammar', 'tmeventsetup'],
     extra_compile_args=['-std=c++11']
@@ -97,11 +98,12 @@ setup(
     cmdclass={
         'build_py': BuildPyCommand,
     },
-    packages=['tmEventSetup'],
+    packages=[PACKAGE_NAME],
     package_data={
-        'tmEventSetup': [
+        PACKAGE_NAME: [
             os.path.join('xsd', '*.xsd'),
             os.path.join('xsd', 'xsd-type', '*.xsd'),
+            '*.i',
         ]
     },
     license="GPLv3"
