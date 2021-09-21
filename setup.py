@@ -7,7 +7,11 @@ import os
 from setuptools import setup, Extension
 import setuptools.command.build_py
 
+<<<<<<< HEAD
 UTM_VERSION = '0.8.2'
+=======
+UTM_VERSION = '0.9.1'
+>>>>>>> origin/devel-0.9.x
 PACKAGE_NAME = 'tmEventSetup'
 PACKAGE_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), PACKAGE_NAME))
 
