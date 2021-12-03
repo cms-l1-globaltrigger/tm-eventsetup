@@ -11,25 +11,25 @@ which makes it also possible to run multiple versions of utm in parallel.
 ### Python 3.9
 
 ```bash
-pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.10.0/tm_eventsetup-0.10.0-cp39-cp39-manylinux_2_5.x86_64.manylinux1_x86_64.whl
+pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.10.0/tm_eventsetup-0.10.0-cp39-cp39-manylinux_2_5_x86_64.manylinux1_x86_64.whl
 ```
 
 ### Python 3.8
 
 ```bash
-pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.10.0/tm_eventsetup-0.10.0-cp38-cp38-manylinux_2_5.x86_64.manylinux1_x86_64.whl
+pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.10.0/tm_eventsetup-0.10.0-cp38-cp38-manylinux_2_5_x86_64.manylinux1_x86_64.whl
 ```
 
 ### Python 3.7
 
 ```bash
-pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.10.0/tm_eventsetup-0.10.0-cp37-cp37m-manylinux_2_5.x86_64.manylinux1_x86_64.whl
+pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.10.0/tm_eventsetup-0.10.0-cp37-cp37m-manylinux_2_5_x86_64.manylinux1_x86_64.whl
 ```
 
 ### Python 3.6
 
 ```bash
-pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.10.0/tm_eventsetup-0.10.0-cp36-cp36m-manylinux_2_5.x86_64.manylinux1_x86_64.whl
+pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.10.0/tm_eventsetup-0.10.0-cp36-cp36m-manylinux_2_5_x86_64.manylinux1_x86_64.whl
 ```
 
 ## Build instructions
