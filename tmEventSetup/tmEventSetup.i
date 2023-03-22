@@ -19,6 +19,11 @@ using namespace tmeventsetup;
 %include <std_set.i>
 %include <std_string.i>
 
+%include "tmEventSetup/esObject.hh"
+%include "tmEventSetup/esCut.hh"
+%include "tmEventSetup/esCutValue.hh"
+%include "tmEventSetup/esBin.hh"
+
 namespace std {
   %template(AlgoMap) map<string, tmeventsetup::esAlgorithm *>;
   %template(CondMap) map<string, tmeventsetup::esCondition *>;
@@ -57,8 +62,4 @@ typedef long esCombinationType;
 %include "tmEventSetup/esTriggerMenu.hh"
 %include "tmEventSetup/esAlgorithm.hh"
 %include "tmEventSetup/esCondition.hh"
-%include "tmEventSetup/esObject.hh"
-%include "tmEventSetup/esCut.hh"
-%include "tmEventSetup/esCutValue.hh"
 %include "tmEventSetup/esScale.hh"
-%include "tmEventSetup/esBin.hh"
