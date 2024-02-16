@@ -19,6 +19,7 @@ using namespace tmeventsetup;
 %include <std_set.i>
 %include <std_string.i>
 
+%include "tmEventSetup/esCondition.hh"
 %include "tmEventSetup/esObject.hh"
 %include "tmEventSetup/esCut.hh"
 %include "tmEventSetup/esCutValue.hh"
@@ -56,6 +57,24 @@ namespace std {
 %}
 
 typedef long esCombinationType;
+
+%typemap(out) boost::optional<std::string> {
+  if ($1) {
+    $result = PyUnicode_FromString($1->c_str());
+  } else {
+    $result = Py_None;
+    Py_INCREF(Py_None);
+  }
+}
+
+%typemap(out) boost::optional<unsigned int> {
+  if ($1) {
+    $result = PyLong_FromUnsignedLong(static_cast<unsigned long>(*$1));
+  } else {
+    $result = Py_None;
+    Py_INCREF(Py_None);
+  }
+}
 
 %include "tmEventSetup/tmEventSetup.hh"
 %include "tmEventSetup/esTypes.hh"
