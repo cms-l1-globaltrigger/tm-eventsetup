@@ -22,8 +22,7 @@ jobs:
           tar xf boost-${BOOST_VERSION}.tar.xz
           cd boost-${BOOST_VERSION}
           ./bootstrap.sh
-          ./b2 -j4 --with-system --with-filesystem
-          ./b2 install --prefix=$(pwd)/../../dist/boost
+          ./b2 -j4 --with-system --with-filesystem install --prefix=$(pwd)/../../dist/boost
       - name: Build xerces-c
         run: |
           mkdir -p build
