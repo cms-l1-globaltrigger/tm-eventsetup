@@ -28,6 +28,7 @@ jobs:
           export DYLD_LIBRARY_PATH=${LD_LIBRARY_PATH}
           export UTM_XSD_DIR=${UTM_ROOT}
           export LC_ALL="en_US.UTF-8"
+          export UTM_SKIP_VERSION_CHECK=true
           python -m cibuildwheel --output-dir wheelhouse
       - uses: actions/upload-artifact@v4
         with:

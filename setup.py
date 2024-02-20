@@ -19,6 +19,8 @@ UTM_XSD_DIR = os.environ.get('UTM_XSD_DIR')
 if not UTM_XSD_DIR:
     raise RuntimeError("UTM_XSD_DIR not defined")
 
+UTM_SKIP_VERSION_CHECK = os.environ.get('UTM_SKIP_VERSION_CHECK')
+
 def load_version(f):
     """Load version from `version.h` file."""
     content = f.read()
@@ -33,8 +35,9 @@ def copy_files(sources, dest):
     for src in sources:
         shutil.copy(src, os.path.join(dest, os.path.basename(src)))
 
-with open(os.path.join(UTM_ROOT, PACKAGE_NAME, 'include', 'utm', PACKAGE_NAME, 'version.h')) as f:
-    assert UTM_VERSION == load_version(f)
+if not UTM_SKIP_VERSION_CHECK:
+    with open(os.path.join(UTM_ROOT, PACKAGE_NAME, 'include', 'utm', PACKAGE_NAME, 'version.h')) as f:
+        assert UTM_VERSION == load_version(f)
 
 class BuildPyCommand(setuptools.command.build_py.build_py):
     """Custom build command."""
