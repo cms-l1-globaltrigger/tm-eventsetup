@@ -8,25 +8,46 @@ jobs:
     runs-on: macos-11
     env:
       UTM_VERSION: 0.12.0
+      BOOST_VERSION: 1.84.0
+      XERCES_C_VERSION: 3.2.5
+      MACOSX_DEPLOYMENT_TARGET: '10.9'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v3
-      - name: Install build dependecies
+      - name: Build boost ${BOOST_VERSION}
         run: |
-          brew install boost xerces-c swig
+          mkdir -p build
+          cd build
+          curl -LO https://github.com/boostorg/boost/releases/download/boost-${BOOST_VERSION}/boost-${BOOST_VERSION}.tar.xz
+          tar xf boost-${BOOST_VERSION}.tar.xz
+          cd boost-${BOOST_VERSION}
+          ./bootstrap.sh
+          ./b2
+          ./b2 install --prefix=$(pwd)/../../dist/boost
+      - name: Build xerces-c ${XERCES_C_VERSION}
+        run: |
+          mkdir -p build
+          cd build
+          curl -LO https://downloads.apache.org/xerces/c/3/sources/xerces-c-${XERCES_C_VERSION}.tar.gz
+          tar xzf xerces-c-${XERCES_C_VERSION}.tar.xz
+          cd xerces-c-${XERCES_C_VERSION}
+          ./configure --prefix=$(pwd)/../../dist/xerces-c
+          make
+          make install
       - name: Build utm ${UTM_VERSION}
         run: |
-          export MACOSX_DEPLOYMENT_TARGET=10.9
+          mkdir -p build
+          cd build
           git clone https://gitlab.cern.ch/cms-l1t-utm/utm.git -b utm_${UTM_VERSION}
           cd utm
           ./configure
-          make all -j4 CPPFLAGS='-DNDEBUG -DSWIG'
-          make install PREFIX=$(pwd)/dist
+          make all -j4 CPPFLAGS='-DNDEBUG -DSWIG' BOOST_BASE=$(pwd)/../../dist/boost XERCES_C_BASE=$(pwd)/../../dist/xerces-c
+          make install PREFIX=$(pwd)/../../dist/utm
       - name: Install cibuildwheel
         run: python -m pip install cibuildwheel==2.16.5
       - name: Build wheels
         run: |
-          export UTM_ROOT=$(pwd)/utm/dist
+          export UTM_ROOT=$(pwd)/dist/utm
           export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${UTM_ROOT}/lib
           export DYLD_LIBRARY_PATH=${LD_LIBRARY_PATH}
           export UTM_XSD_DIR=${UTM_ROOT}
