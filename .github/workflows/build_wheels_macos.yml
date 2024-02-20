@@ -14,7 +14,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v3
-      - name: Build boost ${BOOST_VERSION}
+      - name: Build boost
         run: |
           mkdir -p build
           cd build
@@ -23,8 +23,9 @@ jobs:
           cd boost-${BOOST_VERSION}
           ./bootstrap.sh
           ./b2
+          ./b2 -j4 --with-system --with-filesystem
           ./b2 install --prefix=$(pwd)/../../dist/boost
-      - name: Build xerces-c ${XERCES_C_VERSION}
+      - name: Build xerces-c
         run: |
           mkdir -p build
           cd build
@@ -32,9 +33,9 @@ jobs:
           tar xzf xerces-c-${XERCES_C_VERSION}.tar.xz
           cd xerces-c-${XERCES_C_VERSION}
           ./configure --prefix=$(pwd)/../../dist/xerces-c
-          make
+          make -j4
           make install
-      - name: Build utm ${UTM_VERSION}
+      - name: Build utm
         run: |
           mkdir -p build
           cd build
