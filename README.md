@@ -72,8 +72,10 @@ git clone https://gitlab.cern.ch/cms-l1t-utm/utm.git
 cd utm
 git checkout utm_0.12.0
 ./configure # create makefiles
-make all CPPFLAGS='-DNDEBUG -DSWIG'  # compile with -DSWIG
-. ./env.sh  # source paths
+make all -j4 CPPFLAGS='-DNDEBUG -DSWIG'  # compile with -DSWIG
+make install PREFIX=.
+export UTM_XSD_DIR=$(pwd)
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/lib
 cd ..
 ```
 

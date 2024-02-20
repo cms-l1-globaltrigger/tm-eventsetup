@@ -11,84 +11,72 @@ UTM_VERSION = '0.12.0'
 PACKAGE_NAME = 'tmEventSetup'
 PACKAGE_DIR = os.path.realpath(os.path.join(os.path.dirname(__file__), PACKAGE_NAME))
 
-UTM_ROOT = os.environ.get('UTM_ROOT')
-if not UTM_ROOT:
-    raise RuntimeError("UTM_ROOT not defined")
+UTM_BASE = os.environ.get('UTM_BASE')
+if not UTM_BASE:
+    raise RuntimeError("UTM_BASE not defined")
 
-UTM_XSD_DIR = os.environ.get('UTM_XSD_DIR')
-if not UTM_XSD_DIR:
-    raise RuntimeError("UTM_XSD_DIR not defined")
-
-UTM_SKIP_VERSION_CHECK = os.environ.get('UTM_SKIP_VERSION_CHECK')
-
-def load_version(f):
-    """Load version from `version.h` file."""
-    content = f.read()
-    versions = []
-    for name in ('MAJOR', 'MINOR', 'PATCH'):
-        version = re.findall(r'#define\s+{}_VERSION_{}\s+(\d+)'.format(PACKAGE_NAME, name), content)[0]
-        versions.append(version)
-    return '.'.join(versions)
-
-def copy_files(sources, dest):
-    """Copy files to destination directory."""
-    for src in sources:
-        shutil.copy(src, os.path.join(dest, os.path.basename(src)))
-
-if not UTM_SKIP_VERSION_CHECK:
-    with open(os.path.join(UTM_ROOT, PACKAGE_NAME, 'include', 'utm', PACKAGE_NAME, 'version.h')) as f:
-        assert UTM_VERSION == load_version(f)
+BOOST_BASE = os.environ.get('BOOST_BASE', "")
+XERCES_C_BASE = os.environ.get('XERCES_C_BASE', "")
 
 class BuildPyCommand(setuptools.command.build_py.build_py):
     """Custom build command."""
 
-    def create_modules(self):
-        cwd = os.getcwd()
-        # inside package
-        os.chdir(PACKAGE_DIR)
-        # (re)create XSD directories
-        xsd_dir = 'xsd'
+    def copy_package_data(self):
+        xsd_dir = os.path.join(PACKAGE_DIR, 'xsd')
         xsd_type_dir = os.path.join(xsd_dir, 'xsd-type')
-        if os.path.exists(xsd_dir):
-            shutil.rmtree(xsd_dir)
-        os.makedirs(xsd_dir)
-        os.makedirs(xsd_type_dir)
-        # copy XSD files
-        copy_files(glob.glob(os.path.join(UTM_XSD_DIR, '*.xsd')), xsd_dir)
-        copy_files(glob.glob(os.path.join(UTM_XSD_DIR, 'xsd-type', '*.xsd')), xsd_type_dir)
-        # run SWIG to (re)create bindings module
-        subprocess.check_call(['swig', '-c++', '-python', '-outcurrentdir', '-I{}'.format(os.path.join(UTM_ROOT, PACKAGE_NAME, 'include', 'utm')), '{}.i'.format(PACKAGE_NAME)])
-        # (re)create version module
+        if not os.path.exists(xsd_dir):
+            os.makedirs(xsd_dir)
+        if not os.path.exists(xsd_type_dir):
+            os.makedirs(xsd_type_dir)
+        for filename in glob.glob(os.path.join(UTM_BASE, '*.xsd')):
+            shutil.copy(filename, xsd_dir)
+        for filename in glob.glob(os.path.join(UTM_BASE, 'xsd-type', '*.xsd')):
+            shutil.copy(filename, xsd_type_dir)
+
+    def create_swig_wrapper(self):
+        command = []
+        subprocess.check_call([
+            'swig',
+            '-c++',
+            '-python',
+            '-outcurrentdir',
+            '-I{}'.format(os.path.join(BOOST_BASE, 'include')),
+            '-I{}'.format(os.path.join(XERCES_C_BASE, 'include')),
+            '-I{}'.format(os.path.join(UTM_BASE, 'include')),
+            '{}.i'.format(PACKAGE_NAME),
+        ])
+
+    def create_version_module(self):
         with open('version.py', 'w') as f:
             f.write("__version__ = '{}'".format(UTM_VERSION))
             f.write(os.linesep)
         os.chdir(cwd)
 
     def run(self):
-        self.create_modules()
+        self.copy_package_data()
+        self.create_swig_wrapper()
+        self.create_version_module()
         # run actual build command
         setuptools.command.build_py.build_py.run(self)
 
 tmEventSetup_ext = Extension(
     name='_tmEventSetup',
-    define_macros=[('SWIG', '1'),],
+    define_macros=[('SWIG', '1'), ('DNDEBUG', '1')],
     sources=[
         os.path.join('tmEventSetup', 'tmEventSetup_wrap.cxx')
     ],
     include_dirs=[
-        os.path.join(UTM_ROOT, 'tmUtil', 'include', 'utm'),
-        os.path.join(UTM_ROOT, 'tmTable', 'include', 'utm'),
-        os.path.join(UTM_ROOT, 'tmGrammar', 'include', 'utm'),
-        os.path.join(UTM_ROOT, PACKAGE_NAME, 'include', 'utm')
+        os.path.join(BOOST_BASE, 'include'),
+        os.path.join(XERCES_C_BASE, 'include'),
+        os.path.join(UTM_BASE, 'include'),
     ],
     library_dirs=[
-        os.path.join(UTM_ROOT, 'tmUtil'),
-        os.path.join(UTM_ROOT, 'tmTable'),
-        os.path.join(UTM_ROOT, 'tmGrammar'),
-        os.path.join(UTM_ROOT, PACKAGE_NAME)
+        os.path.join(BOOST_BASE, 'lib'),
+        os.path.join(XERCES_C_BASE, 'lib'),
+        os.path.join(UTM_BASE, 'lib'),
     ],
     libraries=['tmutil', 'tmtable', 'tmgrammar', 'tmeventsetup'],
-    extra_compile_args=['-std=c++11']
+    extra_compile_args=['-std=c++11', '-02']
 )
 
 setup(

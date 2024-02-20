@@ -21,14 +21,13 @@ jobs:
         run: python -m pip install cibuildwheel==2.16.5
       - name: Build wheels
         run: |
-          BOOST_DIST=$(pwd)/dist/boost
-          XERCES_C_DIST=$(pwd)/dist/xerces-c
-          export UTM_ROOT=$(pwd)/dist/utm
-          export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${UTM_ROOT}/lib:${BOOST_DIST}/lib:${XERCES_C_DIST}/lib}
+          export BOOST_BASE=$(pwd)/dist/boost
+          export XERCES_C_BASE=$(pwd)/dist/xerces-c
+          export UTM_BASE=$(pwd)/dist/utm
+          export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${UTM_BASE}/lib:${BOOST_BASE}/lib:${XERCES_C_BASE}/lib}
           export DYLD_LIBRARY_PATH=${LD_LIBRARY_PATH}
-          export UTM_XSD_DIR=${UTM_ROOT}
+          export UTM_XSD_DIR=${UTM_BASE}
           export LC_ALL="en_US.UTF-8"
-          export UTM_SKIP_VERSION_CHECK=true
           python -m cibuildwheel --output-dir wheelhouse
       - uses: actions/upload-artifact@v4
         with:
