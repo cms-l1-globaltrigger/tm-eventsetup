@@ -23,6 +23,7 @@ jobs:
         cd utm-utm_${{ env.UTM_VERSION }}
         ./configure
         make all -j4 CPPFLAGS='-DNDEBUG -DSWIG'
+        make install PREFIX=/usr/local
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v2
       with:
@@ -30,14 +31,13 @@ jobs:
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
-        pip install wheel
+        pip install build wheel
     - name: Build wheel
       run: |
-        . ./utm-utm_${{ env.UTM_VERSION }}/env.sh  # source utm libs
-        python setup.py bdist_wheel
+        export UTM_BASE=/usr/local
+        python -m build
         python -m pip install dist/*-linux_x86_64.whl
     - name: Test module
       run: |
-        . ./utm-utm_${{ env.UTM_VERSION }}/env.sh  # source utm libs
         python -m ${{ env.MODULE }}.__init__
         python -c 'from ${{ env.MODULE }} import __version__; print(__version__)'

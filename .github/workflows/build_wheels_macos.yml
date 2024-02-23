@@ -15,6 +15,7 @@ jobs:
         bash .github/build_boost.sh
         bash .github/build_xerces_c.sh
         bash .github/build_utm.sh
+      CIBW_SKIP: cp36-*
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v3
@@ -25,7 +26,8 @@ jobs:
           export BOOST_BASE=$(pwd)/dist/boost
           export XERCES_C_BASE=$(pwd)/dist/xerces-c
           export UTM_BASE=$(pwd)/dist/utm
-          export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:${UTM_BASE}/lib:${BOOST_BASE}/lib:${XERCES_C_BASE}/lib}
+          export LD_LIBRARY_PATH=${UTM_BASE}/lib:${BOOST_BASE}/lib:${XERCES_C_BASE}/lib}:${LD_LIBRARY_PATH}
+          export DYLD_LIBRARY_PATH=${UTM_BASE}/lib:${BOOST_BASE}/lib:${XERCES_C_BASE}/lib}:${DYLD_LIBRARY_PATH}
           python -m cibuildwheel --output-dir wheelhouse
       - uses: actions/upload-artifact@v4
         with:
