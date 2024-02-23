@@ -68,14 +68,12 @@ Check out and build all utm libraries.
 **Important:** compile using the `-DSWIG` flag, see below.
 
 ```bash
-git clone https://gitlab.cern.ch/cms-l1t-utm/utm.git
+git clone https://gitlab.cern.ch/cms-l1t-utm/utm.git -b utm_0.12.0
 cd utm
-git checkout utm_0.12.0
-./configure # create makefiles
+./configure
 make all -j4 CPPFLAGS='-DNDEBUG -DSWIG'  # compile with -DSWIG
-make install PREFIX=.
-export UTM_XSD_DIR=$(pwd)
-export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$(pwd)/lib
+make install PREFIX=dist
+export UTM_BASE=$(pwd)/dist
 cd ..
 ```
 
@@ -83,9 +81,8 @@ Next build the Python bindings and install the resulting wheel. It is
 recommended to execute this step in a virtual environment.
 
 ```bash
-git clone https://github.com/cms-l1-globaltrigger/tm-eventsetup.git
+git clone https://github.com/cms-l1-globaltrigger/tm-eventsetup.git -b 0.12.0
 cd tm-eventsetup
-git checkout 0.12.0
 python3 -m venv env
 . env/bin/activate
 pip install --upgrade pip

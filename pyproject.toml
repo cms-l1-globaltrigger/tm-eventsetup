@@ -1,3 +1,11 @@
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "tm-eventsetup"
+description = "Python bindings for tmEventSetup."
+readme = "README.md"
+authors = [{name = "Bernhard Arnold", email = "bernhard.arnold@cern.ch"}]
+license = "GPL-3.0-or-later"
+repository = "https://github.com/cms-l1-globaltrigger/tm-eventsetup"

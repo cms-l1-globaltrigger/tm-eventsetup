@@ -1,7 +1,8 @@
-UTM_VERSION=0.12.0
-BOOST_BASE=$(pwd)/dist/boost
-XERCES_C_BASE=$(pwd)/dist/xerces-c
-UTM_BASE=$(pwd)/dist/utm
+: ${UTM_VERSION:=0.12.0}
+: ${UTM_BASE:=$(pwd)/dist/utm}
+: ${BOOST_BASE:=$(pwd)/dist/boost}
+: ${XERCES_C_BASE:=$(pwd)/dist/xerces-c}
+
 mkdir -p build
 cd build
 curl -OL https://gitlab.cern.ch/cms-l1t-utm/utm/-/archive/utm_${UTM_VERSION}/utm-utm_${UTM_VERSION}.tar.gz

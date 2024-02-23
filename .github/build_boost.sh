@@ -1,5 +1,6 @@
-BOOST_VERSION=1.84.0
-BOOST_BASE=$(pwd)/dist/boost
+: ${BOOST_VERSION:=1.84.0}
+: ${BOOST_BASE:=$(pwd)/dist/boost}
+
 mkdir -p build
 cd build
 curl -LO https://github.com/boostorg/boost/releases/download/boost-${BOOST_VERSION}/boost-${BOOST_VERSION}.tar.xz
