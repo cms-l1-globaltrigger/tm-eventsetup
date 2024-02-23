@@ -88,7 +88,7 @@ setup(
         PACKAGE_NAME: [
             os.path.join("xsd", "*.xsd"),
             os.path.join("xsd", "xsd-type", "*.xsd"),
-            "*.i",
+            f"{PACKAGE_NAME}.i",
         ]
     }
 )

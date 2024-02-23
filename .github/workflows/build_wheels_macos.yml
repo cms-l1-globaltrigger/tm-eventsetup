@@ -15,7 +15,6 @@ jobs:
         bash .github/build_boost.sh
         bash .github/build_xerces_c.sh
         bash .github/build_utm.sh
-      CIBW_SKIP: cp36-*
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v3
