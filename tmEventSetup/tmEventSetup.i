@@ -76,6 +76,16 @@ typedef long esCombinationType;
   }
 }
 
+%{
+namespace tmeventsetup {
+  extern const std::string& getGrammarVersion();
+}
+%}
+
+namespace tmeventsetup {
+  extern const std::string& getGrammarVersion();
+}
+
 %include "tmEventSetup/tmEventSetup.hh"
 %include "tmEventSetup/esTypes.hh"
 %include "tmEventSetup/esTriggerMenu.hh"
