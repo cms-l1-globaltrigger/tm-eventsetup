@@ -89,11 +89,7 @@ tmEventSetup_ext = Extension(
 )
 
 setup(
-    name='tm-eventsetup',
     version=UTM_VERSION,
-    author="Bernhard Arnold",
-    author_email="bernhard.arnold@cern.ch",
-    description="""Python bindings for tmEventSetup""",
     ext_modules=[tmEventSetup_ext],
     cmdclass={
         'build_py': BuildPyCommand,
