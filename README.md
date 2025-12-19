@@ -2,59 +2,20 @@
 
 Python bindings for tmEventSetup.
 
-## Install instructions
+## Install
 
 It is recommended to install the utm Python bindings in a virtual environment
 which makes it also possible to use multiple versions in parallel.
 
-### Python 3.12
-
 ```bash
-pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.13.0/tm_eventsetup-0.13.0-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-```
-
-### Python 3.11
-
-```bash
-pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.13.0/tm_eventsetup-0.13.0-cp311-cp311-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-```
-
-### Python 3.10
-
-```bash
-pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.13.0/tm_eventsetup-0.13.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-```
-
-### Python 3.9
-
-```bash
-pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.13.0/tm_eventsetup-0.13.0-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-```
-
-### Python 3.8
-
-```bash
-pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.13.0/tm_eventsetup-0.13.0-cp38-cp38-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-```
-
-### Python 3.7
-
-```bash
-pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.13.0/tm_eventsetup-0.13.0-cp37-cp37m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
-```
-
-### Python 3.6
-
-```bash
-pip install https://github.com/cms-l1-globaltrigger/tm-eventsetup/releases/download/0.13.0/tm_eventsetup-0.13.0-cp36-cp36m-manylinux_2_17_x86_64.manylinux2014_x86_64.whl
+pip install --index https://globaltrigger.web.cern.ch/pypi tm-eventsetup==0.14.0
 ```
 
 ## Build instructions
 
 **Note:** building the Python bindings from scratch is only recommended for
 development. To create portable Python bindings use the
-[tm-manylinux](https://github.com/cms-l1-globaltrigger/tm-manylinux)
-Docker image.
+[cibuildwheel](https://cibuildwheel.pypa.io/en/stable/) workflow.
 
 Make sure to install all required build dependecies.
 
@@ -68,9 +29,9 @@ Check out and build all utm libraries.
 **Important:** compile using the `-DSWIG` flag, see below.
 
 ```bash
-git clone https://gitlab.cern.ch/cms-l1t-utm/utm.git
+git clone https://gitlab.cern.ch/cms-l1t-utm/utm.git -b utm_0.14.0
 cd utm
-git checkout utm_0.13.0
+git checkout utm_0.14.0
 ./configure # create makefiles
 make all CPPFLAGS='-DNDEBUG -DSWIG'  # compile with -DSWIG
 . ./env.sh  # source paths
@@ -81,9 +42,8 @@ Next build the Python bindings and install the resulting wheel. It is
 recommended to execute this step in a virtual environment.
 
 ```bash
-git clone https://github.com/cms-l1-globaltrigger/tm-eventsetup.git
+git clone https://github.com/cms-l1-globaltrigger/tm-eventsetup.git -b 0.14.0
 cd tm-eventsetup
-git checkout 0.13.0
 python3 -m venv env
 . env/bin/activate
 pip install --upgrade pip
