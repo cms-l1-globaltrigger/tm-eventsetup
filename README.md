@@ -15,8 +15,7 @@ pip install --index https://globaltrigger.web.cern.ch/pypi tm-eventsetup==0.14.0
 
 **Note:** building the Python bindings from scratch is only recommended for
 development. To create portable Python bindings use the
-[tm-manylinux](https://github.com/cms-l1-globaltrigger/tm-manylinux)
-Docker image.
+[cibuildwheel](https://cibuildwheel.pypa.io/en/stable/) workflow.
 
 Make sure to install all required build dependecies.
 
@@ -32,10 +31,10 @@ Check out and build all utm libraries.
 ```bash
 git clone https://gitlab.cern.ch/cms-l1t-utm/utm.git -b utm_0.14.0
 cd utm
-./configure
-make all -j4 CPPFLAGS='-DNDEBUG -DSWIG'  # compile with -DSWIG
-make install PREFIX=dist
-export UTM_BASE=$(pwd)/dist
+git checkout utm_0.14.0
+./configure # create makefiles
+make all CPPFLAGS='-DNDEBUG -DSWIG'  # compile with -DSWIG
+. ./env.sh  # source paths
 cd ..
 ```
 
