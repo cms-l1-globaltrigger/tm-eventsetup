@@ -8,7 +8,7 @@ It is recommended to install the utm Python bindings in a virtual environment
 which makes it also possible to use multiple versions in parallel.
 
 ```bash
-pip install --index https://globaltrigger.web.cern.ch/pypi tm-eventsetup==0.14.0
+pip install --index https://globaltrigger.web.cern.ch/pypi tm-eventsetup==0.14.1
 ```
 
 ## Build instructions
@@ -29,9 +29,8 @@ Check out and build all utm libraries.
 **Important:** compile using the `-DSWIG` flag, see below.
 
 ```bash
-git clone https://gitlab.cern.ch/cms-l1t-utm/utm.git -b utm_0.14.0
+git clone https://gitlab.cern.ch/cms-l1t-utm/utm.git -b utm_0.14.1
 cd utm
-git checkout utm_0.14.0
 ./configure # create makefiles
 make all CPPFLAGS='-DNDEBUG -DSWIG'  # compile with -DSWIG
 . ./env.sh  # source paths
@@ -42,7 +41,7 @@ Next build the Python bindings and install the resulting wheel. It is
 recommended to execute this step in a virtual environment.
 
 ```bash
-git clone https://github.com/cms-l1-globaltrigger/tm-eventsetup.git -b 0.14.0
+git clone https://github.com/cms-l1-globaltrigger/tm-eventsetup.git -b 0.14.1
 cd tm-eventsetup
 python3 -m venv env
 . env/bin/activate
